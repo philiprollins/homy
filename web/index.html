@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101216"><title>Homy · Energy</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<aside class="sidebar"><a class="brand" href="/" aria-label="Homy home"><span class="brandmark">h<span>·</span></span>homy<span class="brand-dot"> / </span></a><div class="workspace">YOUR WORKSPACE</div><a class="nav active" href="#overview-section"><span>◫</span> Overview <span class="nav-dot"></span></a><a class="nav" href="#health-section"><span>▥</span> Battery health</a><a class="nav" href="#history-section"><span>⌁</span> History</a><div class="sidebar-bottom"><span class="local-dot"></span> Local by design<p>Your energy. Your hardware.</p><small>BATTERY MONITOR · V1</small></div></aside>
+<div class="shell"><header><div class="breadcrumb">Workspace <span>/</span> Energy overview</div><div class="header-right"><span class="local-label"><i></i> Local system</span><span id="clock"></span></div></header>
+<main>
+<div class="page-heading" id="overview-section"><div><div class="eyebrow">ENERGY / BATTERIES</div><h1>A little more energy awareness.</h1><p>A live view of your battery, from the inside out.</p></div><div class="device-picker"><label for="battery">MONITORING</label><select id="battery"></select></div></div>
+<div id="status" role="status">Connecting to your monitor…</div>
+<section id="inverter-section" hidden>
+<div class="section-title"><div><span class="eyebrow">SOLAR &amp; AC LOADS</span><h2 id="inverter-name">Inverter</h2></div><span id="inverter-state" class="pill">Waiting</span></div>
+<p id="inverter-status" class="subtle" role="status"></p>
+<div id="inverter-metrics" class="grid energy-grid"></div>
+<p class="subtle">Inverter-reported SOC is separate from battery BMS SOC. Load power is the inverter AC output; grid input is not yet measured.</p>
+<div id="inverter-charts" class="charts"></div><p id="inverter-history-note" class="subtle"></p>
+</section>
+<section class="bank-panel" aria-label="Battery bank summary"><div class="bank-heading"><div><span class="eyebrow">ALL BATTERIES</span><h2>Bank overview</h2></div><span id="bank-state" class="pill">Waiting</span></div><div id="bank-metrics" class="bank-metrics"></div><p id="bank-notice"></p><div id="bank-alarms" role="status"></div></section><div class="section-title"><div><span class="eyebrow">INDIVIDUAL PACKS</span><h2>A closer look.</h2></div><span class="subtle">Select a battery for details below</span></div><section id="packs" class="pack-list" aria-label="Monitored battery packs"></section>
+<section class="hero">
+<div class="charge-panel"><div class="panel-top"><span class="eyebrow">STATE OF CHARGE</span><span id="activity" class="pill">Waiting</span></div><div class="charge-number"><span id="soc">—</span><span class="percent">%</span></div><div class="battery-track"><div id="soc-fill"></div></div><div class="charge-footer"><span id="capacity">Capacity unavailable</span><span id="scope">Pack scope unknown</span></div></div>
+<div class="hero-summary"><div class="eyebrow">RIGHT NOW</div><div class="power-number" id="hero-power">— <small>W</small></div><p id="power-caption">Waiting for a valid battery reading</p><div class="flow"><span class="flow-icon">▤</span><span class="flow-line"></span><span id="flow-label">Battery</span><span class="flow-line"></span><span class="flow-icon">⌂</span></div><div class="hero-foot">Positive power charges the pack · Negative power discharges it</div></div>
+</section>
+<section id="overview" class="grid metrics"></section>
+<div class="section-title"><div><span class="eyebrow">THE BIGGER PICTURE</span><h2>Energy, accounted for.</h2></div><span class="subtle">UTC totals · Observed intervals only</span></div><section id="energy" class="grid energy-grid"></section>
+<div class="section-title" id="history-section"><div><span class="eyebrow">PATTERNS OVER TIME</span><h2>Your battery's rhythm.</h2></div><select id="range" aria-label="History range"><option value="1">Last hour</option><option value="24" selected>Last 24 hours</option><option value="168">Last 7 days</option><option value="720">Last 30 days</option></select></div>
+<p id="history-note" class="subtle"></p><section id="charts" class="charts"></section>
+<div class="section-title" id="health-section"><div><span class="eyebrow">UNDER THE SURFACE</span><h2>Every cell tells a story.</h2></div><span class="pill">CELL HEALTH</span></div>
+<section class="health-panel"><div id="health"></div><section id="cells" class="cell-grid"></section><div class="cell-legend"><i></i> Individual cell voltage · Millivolts</div></section>
+<div class="section-title"><div><span class="eyebrow">THE DAILY LEDGER</span><h2>Energy in. Energy out.</h2></div><span class="subtle">kWh / day</span></div><div id="daily" class="ledger"></div>
+<footer><span>homy / local energy</span><span>Measured, never assumed. Gaps are excluded from energy totals.</span></footer>
+</main></div><script src="/app.js"></script></body></html>

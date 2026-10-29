@@ -1,0 +1,16 @@
+server:
+  host: 127.0.0.1
+  port: 8080
+database:
+  path: ./data/mock.db
+monitoring:
+  interval_seconds: 10
+  max_gap_seconds: 30
+batteries:
+  - id: battery-master
+    name: ECO-WORTHY Pack Master
+    connection: mock
+    address: AA:C2:37:03:21:C8
+    capacity_ah: 100
+    nominal_voltage: 51.2
+    protocol: auto

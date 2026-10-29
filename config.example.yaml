@@ -1,0 +1,49 @@
+server:
+  host: 127.0.0.1
+  port: 8080
+database:
+  path: ./data/power.db
+monitoring:
+  interval_seconds: 10
+  max_gap_seconds: 30
+batteries:
+- id: battery-master
+  name: ECO-WORTHY Pack Master
+  connection: bluetooth
+  address: AA:C2:37:03:21:C8
+  capacity_ah: 100
+  nominal_voltage: 51.2
+  protocol: auto
+- id: battery-1f6f
+  name: "ECO-WORTHY \xB7 1F:6F"
+  connection: bluetooth
+  address: AA:C2:37:03:1F:6F
+  capacity_ah: 100
+  nominal_voltage: 51.2
+  protocol: auto
+- id: battery-22fc
+  name: "ECO-WORTHY \xB7 22:FC"
+  connection: bluetooth
+  address: AA:C2:37:03:22:FC
+  capacity_ah: 100
+  nominal_voltage: 51.2
+  protocol: auto
+- id: battery-235d
+  name: "ECO-WORTHY \xB7 23:5D"
+  connection: bluetooth
+  address: AA:C2:37:03:23:5D
+  capacity_ah: 100
+  nominal_voltage: 51.2
+  protocol: auto
+
+inverter:
+  enabled: true
+  id: inverter-sungold
+  name: SunGoldPower 10 kW
+  host: 192.168.1.236
+  port: 8899
+  logger_serial: 3580679640
+  slave_id: 1
+  expected_serial_prefix: SGP2508150220
+  interval_seconds: 30
+  max_gap_seconds: 90
