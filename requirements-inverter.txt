@@ -1,0 +1,2 @@
+# Optional, for the standalone read-only SOLARMAN diagnostic.
+pysolarmanv5>=3,<4

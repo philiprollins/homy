@@ -1,0 +1,17 @@
+[Unit]
+Description=Local battery monitoring
+After=network.target bluetooth.target
+[Service]
+Type=simple
+User=power-monitor
+WorkingDirectory=/opt/power-monitor
+ExecStart=/opt/power-monitor/.venv/bin/python -m power_monitor serve --config /opt/power-monitor/config.yaml
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/power-monitor/data
+[Install]
+WantedBy=multi-user.target
