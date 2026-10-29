@@ -107,7 +107,7 @@ async function refreshInverter(){
  $('inverter-status').textContent='Last reading: '+(r?.timestamp??'none')+(snapshot.error?' · '+snapshot.error:'')+(r?' · '+r.inverter_serial:'');
  cards('inverter-metrics',[
  ['Solar input',fmt(r?.pv_total_power_w,'W')],
- ['AC load output',fmt(r?.load_total_power_w,'W')],
+ ['AC load · L1 + L2',fmt(r?.raw_registers?.l1_current?.[0] == null || r?.raw_registers?.l2_current?.[0] == null ? null : (r.raw_registers.l1_current[0]+r.raw_registers.l2_current[0])/10,'A')],
  ['Battery voltage · inverter',fmt(r?.battery_voltage_v,'V')],
  ['SOC · inverter estimate',fmt(r?.inverter_reported_soc_percent,'%')],
  ['PV1 / PV2',fmt(r?.pv1_power_w,'W')+' / '+fmt(r?.pv2_power_w,'W')],
