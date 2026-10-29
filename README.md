@@ -104,7 +104,7 @@ Only Modbus read function 3 is sent. The candidate SunGoldPower SPH profile come
 
 The real configuration now enables the inverter dashboard and collector. Install the updated requirements before restarting. Set inverter.enabled to false to disable it; configurations without an inverter section remain battery-only. Mock configuration does not contact the inverter.
 
-The collector uses SOLARMAN V5 over local TCP 8899 and only five fixed Modbus function-3 read ranges. Every snapshot checks expected_serial_prefix. Polling defaults to 30 seconds (minimum 10), with a 90-second stale threshold and reconnect backoff. The verified fields are PV1/PV2 power and voltage, L1/L2 AC output loads, battery voltage, and inverter-reported SOC. No settings, controls or arbitrary Modbus API are exposed.
+The collector uses SOLARMAN V5 over local TCP 8899 and only fixed Modbus function-3 read ranges. Every snapshot checks expected_serial_prefix. Polling defaults to 30 seconds (minimum 10), with a 90-second stale threshold and reconnect backoff. The verified fields are PV1/PV2 power and voltage, L1/L2 AC output loads and current, battery voltage, and inverter-reported SOC. No settings, controls or arbitrary Modbus API are exposed.
 
 GET /api/inverter returns connection state, stale flag and the last successful reading. GET /api/inverter/history accepts hours=1..720 and limit=1..100000 and reports truncation. Raw register responses and normalized snapshots persist in a separate inverter_readings table, indexed by inverter/time. Failed reads never manufacture a snapshot. Dashboard charts use the same time range selector as battery history.
 

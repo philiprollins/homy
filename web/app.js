@@ -20,12 +20,12 @@ function chart(title,rows,key,chartGap=gap){
  for(let i=0;i<=4;i++){
   const y=15+i*40,value=high-(high-low)*i/4;
   element('line',{x1:70,x2:545,y1:y,y2:y,stroke:'#343d49','stroke-dasharray':'3 5'});
-  element('text',{x:62,y:y+4,'text-anchor':'end',class:'chart-axis'},value.toFixed(2)+' '+unit);
+  element('text',{x:62,y:y+4,'text-anchor':'end',class:'chart-axis',fill:'#e3eaf4'},value.toFixed(2)+' '+unit);
  }
  for(let i=0;i<=2;i++){
   const x=70+475*i/2,t=first+span*i/2,d=new Date(t);
   const stamp=(span>86400000?d.toISOString().slice(5,10)+' ':'')+d.toISOString().slice(11,16);
-  element('text',{x:x,y:202,'text-anchor':i===0?'start':i===2?'end':'middle',class:'chart-axis'},stamp);
+  element('text',{x:x,y:202,'text-anchor':i===0?'start':i===2?'end':'middle',class:'chart-axis',fill:'#e3eaf4'},stamp);
  }
  let points=[];
  const flush=()=>{if(points.length===1)element('circle',{cx:points[0][0],cy:points[0][1],r:2.5,fill:'#8ba9d4'});else if(points.length>1)element('polyline',{points:points.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#8ba9d4','stroke-width':2});points=[]};
@@ -111,8 +111,8 @@ async function refreshInverter(){
  ['Battery voltage · inverter',fmt(r?.battery_voltage_v,'V')],
  ['SOC · inverter estimate',fmt(r?.inverter_reported_soc_percent,'%')],
  ['PV1 / PV2',fmt(r?.pv1_power_w,'W')+' / '+fmt(r?.pv2_power_w,'W')],
- ['Load L1',fmt(r?.load_l1_power_w,'W')],
- ['Load L2',fmt(r?.load_l2_power_w,'W')],
+ ['Load L1 current',fmt(r?.raw_registers?.l1_current?.[0] == null ? null : r.raw_registers.l1_current[0]/10,'A')],
+ ['Load L2 current',fmt(r?.raw_registers?.l2_current?.[0] == null ? null : r.raw_registers.l2_current[0]/10,'A')],
  ['PV voltage · 1 / 2',fmt(r?.pv1_voltage_v,'V')+' / '+fmt(r?.pv2_voltage_v,'V')]
  ]);
  const history=await get('/api/inverter/history?hours='+$('range').value+'&limit=100000');

@@ -24,3 +24,6 @@
 .chart-axis{fill:#aab5c5;font-size:11px;font-family:system-ui,sans-serif;font-variant-numeric:tabular-nums}
 .chart svg{height:auto;display:block;max-height:220px}
 .chart-empty{height:180px;display:grid;place-content:center;text-align:center;color:#8792a3}
+
+.chart .chart-axis{fill:#e3eaf4;color:#e3eaf4;font-weight:500}
+.chart .chart-legend,.chart p{color:#e3eaf4}

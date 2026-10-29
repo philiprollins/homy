@@ -16,7 +16,7 @@ def raw():
     pv[0],pv[8]=2339,2410
     pv[2],pv[10]=500,600
     return dict(identity=[ord(c) for c in 'SGP2508150220-301638'.ljust(20,'\0')],
-                battery=[84,529,460],pv=pv,l1=[1528],legs=[731])
+                battery=[84,529,460],pv=pv,l1=[1528],legs=[731],l1_current=[130],l2_current=[65])
 
 def test_decode_and_identity_guard():
     r=decode(inverter_config(),raw()).to_dict()
@@ -54,7 +54,7 @@ def test_collector_only_approved_reads():
     class Client:
         async def read_holding_registers(self,address,count):
             mapping={0x35:raw()['identity'],0x100:raw()['battery'],0x107:raw()['pv'],
-                     0x21b:raw()['l1'],0x232:raw()['legs']}
+                     0x21b:raw()['l1'],0x232:raw()['legs'],0x219:raw()['l1_current'],0x230:raw()['l2_current']}
             assert address in mapping
             assert len(mapping[address])==count
             return mapping[address]

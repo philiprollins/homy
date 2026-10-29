@@ -40,7 +40,8 @@ class SolarmanInverterCollector:
             raise ConnectionError('Inverter not connected')
         raw = {}
         for key, start, count in [('identity',0x35,20),('battery',0x100,3),
-                                  ('pv',0x107,11),('l1',0x21b,1),('legs',0x232,1)]:
+                                  ('pv',0x107,11),('l1',0x21b,1),('legs',0x232,1),
+                                  ('l1_current',0x219,1),('l2_current',0x230,1)]:
             raw[key] = await asyncio.wait_for(self.client.read_holding_registers(start,count), timeout=6)
         return decode(self.config, raw)
 
