@@ -116,7 +116,11 @@ async function refreshInverter(){
  ['PV voltage · 1 / 2',fmt(r?.pv1_voltage_v,'V')+' / '+fmt(r?.pv2_voltage_v,'V')]
  ]);
  const history=await get('/api/inverter/history?hours='+$('range').value+'&limit=100000');
- $('inverter-charts').replaceChildren(...[['Solar input (W)','pv_total_power_w'],['AC loads (W)','load_total_power_w']].map(([title,key])=>chart(title,history.readings,key,snapshot.max_gap_seconds)));
+ const inverterRows=history.readings.map(row=>{
+  const l1=row.raw_registers?.l1_current?.[0],l2=row.raw_registers?.l2_current?.[0];
+  return {...row,load_total_current_a:l1==null||l2==null?null:(l1+l2)/10};
+ });
+ $('inverter-charts').replaceChildren(...[['Solar input (W)','pv_total_power_w'],['AC load L1 + L2 (A)','load_total_current_a']].map(([title,key])=>chart(title,inverterRows,key,snapshot.max_gap_seconds)));
  $('inverter-history-note').textContent=(history.truncated?'History truncated. ':'')+'History follows the time range selected below. UTC timestamps; gaps are excluded.';
  }catch(error){$('inverter-state').textContent='CONNECTION UNAVAILABLE';$('inverter-state').className='pill warning';$('inverter-status').textContent=error.message}
 }
