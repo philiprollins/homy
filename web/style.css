@@ -18,3 +18,9 @@
 
 #inverter-section{margin-bottom:32px}#inverter-section .section-title{margin-top:10px}#inverter-section .charts{margin-top:20px}
 #inverter-status{overflow-wrap:anywhere;line-height:1.8}
+
+.chart-legend{display:flex;align-items:center;gap:8px;color:#aab8cc;font-size:11px;margin-bottom:8px}
+.chart-swatch{width:18px;height:3px;border-radius:2px;background:#8ba9d4}
+.chart-axis{fill:#aab5c5;font-size:11px;font-family:system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.chart svg{height:auto;display:block;max-height:220px}
+.chart-empty{height:180px;display:grid;place-content:center;text-align:center;color:#8792a3}
