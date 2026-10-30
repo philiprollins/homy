@@ -38,8 +38,8 @@ class Database:
         return json.loads(row['data']) if row else None
 
     def history(self, battery_id, start, end, limit=10000):
-        rows = self.db.execute('SELECT data FROM readings WHERE battery_id=? AND timestamp>=? AND timestamp<=? ORDER BY timestamp LIMIT ?', (battery_id, start, end, limit)).fetchall()
-        return [json.loads(r['data']) for r in rows]
+        rows = self.db.execute('SELECT data FROM readings WHERE battery_id=? AND timestamp>=? AND timestamp<=? ORDER BY timestamp DESC LIMIT ?', (battery_id, start, end, limit)).fetchall()
+        return [json.loads(r['data']) for r in reversed(rows)]
 
     def totals(self, battery_id, start, end, monthly=False):
         bucket = 'substr(day,1,7)' if monthly else 'day'
@@ -57,9 +57,9 @@ class Database:
         return json.loads(row['data']) if row else None
 
     def inverter_history(self, id, start, end, limit):
-        rows = self.db.execute('SELECT data FROM inverter_readings WHERE inverter_id=? AND timestamp>=? AND timestamp<=? ORDER BY timestamp LIMIT ?',
+        rows = self.db.execute('SELECT data FROM inverter_readings WHERE inverter_id=? AND timestamp>=? AND timestamp<=? ORDER BY timestamp DESC LIMIT ?',
                                (id,start,end,limit)).fetchall()
-        return [json.loads(row['data']) for row in rows]
+        return [json.loads(row['data']) for row in reversed(rows)]
 
     def close(self):
         self.db.close()

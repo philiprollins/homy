@@ -71,7 +71,7 @@ def create_app(config):
         end = datetime.now(timezone.utc)
         start = end - timedelta(hours=hours)
         rows = app.state.db.inverter_history(config['inverter']['id'], start.isoformat(),end.isoformat(),limit+1)
-        return {'readings':rows[:limit], 'truncated':len(rows)>limit}
+        return {'readings':rows[-limit:], 'truncated':len(rows)>limit}
 
     @app.get('/api/bank/summary')
     async def bank_summary():
@@ -108,7 +108,7 @@ def create_app(config):
         if start.tzinfo is None or end.tzinfo is None or start > end:
             raise HTTPException(422, 'Use timezone-aware dates in ascending order')
         rows = app.state.db.history(id, start.astimezone(timezone.utc).isoformat(), end.astimezone(timezone.utc).isoformat(), limit + 1)
-        return {'readings': rows[:limit], 'truncated': len(rows) > limit}
+        return {'readings': rows[-limit:], 'truncated': len(rows) > limit}
 
     def energy(battery_id, start, end, monthly):
         check(battery_id)

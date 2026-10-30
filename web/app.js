@@ -2,7 +2,7 @@ const $=id=>document.getElementById(id);
 const fmt=(v,u='')=>v==null?'Unavailable':Number(v).toFixed(2)+' '+u;
 const get=async url=>{const r=await fetch(url);if(!r.ok)throw Error('Request failed: '+r.status);return r.json()};
 function cards(id,items){$(id).replaceChildren(...items.map(([label,value])=>{const d=document.createElement('div');d.className='card';const s=document.createElement('span');s.textContent=label;const b=document.createElement('strong');b.textContent=value;d.append(s,b);return d}))}
-function chart(title,rows,key,chartGap=gap){
+function chart(title,rows,key,chartGap=gap,hours=Number($('range').value)){
  const div=document.createElement('div');div.className='chart';
  const label=document.createElement('p');label.textContent=title;div.append(label);
  const legend=document.createElement('div');legend.className='chart-legend';
@@ -12,7 +12,7 @@ function chart(title,rows,key,chartGap=gap){
  if(values.length<2){const empty=document.createElement('div');empty.className='chart-empty';empty.textContent=values.length?'Collecting history — the next reading starts your chart.':'History will appear as readings arrive.';div.append(empty);return div}
  let low=Infinity,high=-Infinity;for(const r of values){low=Math.min(low,r[key]);high=Math.max(high,r[key])}
  if(low===high){const padding=Math.max(Math.abs(low)*.02,.1);low-=padding;high+=padding}
- const first=Date.parse(rows[0].timestamp),last=Date.parse(rows.at(-1).timestamp),span=last-first||1;
+ const last=Math.max(Date.now(),Date.parse(values.at(-1).timestamp)),first=Math.min(last-hours*3600000,Date.parse(values[0].timestamp)),span=last-first||1;
  const unit=title.match(/\(([^)]+)\)/)?.[1]||'';
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 560 220');
  svg.setAttribute('role','img');svg.setAttribute('aria-label',title+' over time, '+new Date(first).toISOString()+' to '+new Date(last).toISOString());
@@ -24,7 +24,7 @@ function chart(title,rows,key,chartGap=gap){
  }
  for(let i=0;i<=2;i++){
   const x=70+475*i/2,t=first+span*i/2,d=new Date(t);
-  const stamp=(span>86400000?d.toISOString().slice(5,10)+' ':'')+d.toISOString().slice(11,16);
+  const stamp=(span>=86400000?d.toISOString().slice(5,10)+' ':'')+d.toISOString().slice(11,16);
   element('text',{x:x,y:202,'text-anchor':i===0?'start':i===2?'end':'middle',class:'chart-axis',fill:'#e3eaf4'},stamp);
  }
  let points=[];
