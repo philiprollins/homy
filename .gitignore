@@ -1,4 +1,5 @@
 .venv/
+.venv-homy/
 __pycache__/
 .pytest_cache/
 data/*.db*

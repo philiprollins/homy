@@ -1,0 +1,14 @@
+[Unit]
+Description=Homy Power Monitor
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/apps/homy
+ExecStart=%h/apps/homy/.venv-homy/bin/python -m power_monitor serve --config %h/apps/homy/config.yaml
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target
