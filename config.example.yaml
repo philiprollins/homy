@@ -10,6 +10,7 @@ batteries:
 - id: battery-master
   name: ECO-WORTHY Pack Master
   connection: bluetooth
+  adapter: hci0
   address: AA:C2:37:03:21:C8
   capacity_ah: 100
   nominal_voltage: 51.2
@@ -17,6 +18,7 @@ batteries:
 - id: battery-1f6f
   name: "ECO-WORTHY \xB7 1F:6F"
   connection: bluetooth
+  adapter: hci0
   address: AA:C2:37:03:1F:6F
   capacity_ah: 100
   nominal_voltage: 51.2
@@ -24,6 +26,7 @@ batteries:
 - id: battery-22fc
   name: "ECO-WORTHY \xB7 22:FC"
   connection: bluetooth
+  adapter: hci0
   address: AA:C2:37:03:22:FC
   capacity_ah: 100
   nominal_voltage: 51.2
@@ -31,6 +34,7 @@ batteries:
 - id: battery-235d
   name: "ECO-WORTHY \xB7 23:5D"
   connection: bluetooth
+  adapter: hci0
   address: AA:C2:37:03:23:5D
   capacity_ah: 100
   nominal_voltage: 51.2

@@ -4,7 +4,7 @@ import sys
 from bleak.backends.device import BLEDevice
 
 
-async def known_device(address):
+async def known_device(address, adapter=None):
     if sys.platform != 'linux':
         return None
     from dbus_fast import BusType, Message, MessageType
@@ -17,6 +17,8 @@ async def known_device(address):
         if reply.message_type == MessageType.ERROR:
             raise ConnectionError(f'BlueZ device lookup failed: {reply.error_name}')
         for path, interfaces in reply.body[0].items():
+            if adapter and not path.startswith(f'/org/bluez/{adapter}/'):
+                continue
             values = interfaces.get('org.bluez.Device1')
             if not values:
                 continue

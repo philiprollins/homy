@@ -35,7 +35,12 @@ class BluetoothBatteryCollector(BatteryCollector):
 
     async def connect(self):
         async with self.connection_lock:
-            device = await known_device(self.config['address'])
+            adapter = self.config.get('adapter')
+            device = await known_device(self.config['address'], adapter)
+            if device is None and adapter:
+                device = await BleakScanner.find_device_by_address(self.config['address'], timeout=10, adapter=adapter)
+                if device is None:
+                    raise ConnectionError(f"Device {self.config['address']} not found on {adapter}")
             self.client = BleakClient(device or self.config['address'], timeout=15)
             await self.client.connect()
 

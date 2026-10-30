@@ -63,6 +63,8 @@ The default `server.host: 127.0.0.1` accepts connections from the local machine.
 
 On Debian or Ubuntu, install BlueZ with `sudo apt install bluez` and ensure Bluetooth is enabled. The user running the service must be allowed to access BlueZ over the system D-Bus.
 
+Each Bluetooth battery can set `adapter: hci0` to select a particular Linux Bluetooth adapter. The supplied configuration selects `hci0` for the TP-Link USB dongle on this machine. Adapter numbering can change after reboot or moving hardware; check `bluetoothctl list` and `/sys/class/bluetooth/` if connections fail, and update the configuration as needed. Omit `adapter` to use the normal BlueZ device selection.
+
 ```bash
 .venv/bin/python -m power_monitor discover
 .venv/bin/python -m power_monitor inspect --config config.yaml

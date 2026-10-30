@@ -41,7 +41,7 @@ def test_ble_connections_are_serialized(monkeypatch):
             maximum = max(maximum, active)
             await asyncio.sleep(.001)
             active -= 1
-    async def known(address): return None
+    async def known(address, adapter=None): return None
     monkeypatch.setattr(battery_ble, 'known_device', known)
     monkeypatch.setattr(battery_ble, 'BleakClient', Client)
     async def run():
@@ -55,7 +55,7 @@ def test_known_bluez_device_is_used_without_address_scan(monkeypatch):
     import asyncio
     from power_monitor.collectors import battery_ble
     target = object()
-    async def known(address):
+    async def known(address, adapter=None):
         assert address == 'AA:C2:37:03:21:C8'
         return target
     class Client:
@@ -65,6 +65,26 @@ def test_known_bluez_device_is_used_without_address_scan(monkeypatch):
     monkeypatch.setattr(battery_ble, 'known_device', known)
     monkeypatch.setattr(battery_ble, 'BleakClient', Client)
     asyncio.run(battery_ble.BluetoothBatteryCollector({'address':'AA:C2:37:03:21:C8'}).connect())
+
+
+def test_selected_adapter_is_used_for_discovery(monkeypatch):
+    import asyncio
+    from power_monitor.collectors import battery_ble
+    target = object()
+    async def known(address, adapter=None):
+        assert adapter == 'hci0'
+        return None
+    async def scan(address, **kwargs):
+        assert kwargs['adapter'] == 'hci0'
+        return target
+    class Client:
+        def __init__(self, device, **kwargs):
+            assert device is target
+        async def connect(self): pass
+    monkeypatch.setattr(battery_ble, 'known_device', known)
+    monkeypatch.setattr(battery_ble.BleakScanner, 'find_device_by_address', scan)
+    monkeypatch.setattr(battery_ble, 'BleakClient', Client)
+    asyncio.run(battery_ble.BluetoothBatteryCollector({'address':'AA:C2:37:03:21:C8', 'adapter':'hci0'}).connect())
 
 def test_notifications_stay_subscribed_between_polls():
     import asyncio
