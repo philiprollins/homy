@@ -51,3 +51,9 @@ inverter:
   expected_serial_prefix: SGP2508150220
   interval_seconds: 30
   max_gap_seconds: 90
+
+tesla:
+  enabled: false
+  # Written by ~/apps/tesla_ctrl (teslactl.py run); refresh rate is CAR_STATUS_SECONDS there.
+  status_file: ../tesla_ctrl/data/car_status.json
+  max_age_seconds: 2700

@@ -14,6 +14,12 @@
 <p class="subtle">Inverter-reported SOC is separate from battery BMS SOC. AC load current is the sum of the two output legs; grid input is not yet measured.</p>
 <div id="inverter-charts" class="charts"></div><p id="inverter-history-note" class="subtle"></p>
 </section>
+<section id="tesla-section" hidden>
+<div class="section-title"><div><span class="eyebrow">VEHICLE</span><h2 id="tesla-name">Tesla</h2></div><span id="tesla-state" class="pill">Waiting</span></div>
+<p id="tesla-status" class="subtle" role="status"></p>
+<div id="tesla-metrics" class="grid energy-grid"></div>
+<p id="tesla-automation" class="subtle"></p>
+</section>
 <section class="bank-panel" aria-label="Battery bank summary"><div class="bank-heading"><div><span class="eyebrow">ALL BATTERIES</span><h2>Bank overview</h2></div><span id="bank-state" class="pill">Waiting</span></div><div id="bank-metrics" class="bank-metrics"></div><p id="bank-notice"></p><div id="bank-alarms" role="status"></div></section><div class="section-title"><div><span class="eyebrow">INDIVIDUAL PACKS</span><h2>A closer look.</h2></div><span class="subtle">Select a battery for details below</span></div><section id="packs" class="pack-list" aria-label="Monitored battery packs"></section>
 <section class="hero">
 <div class="charge-panel"><div class="panel-top"><span class="eyebrow">STATE OF CHARGE</span><span id="activity" class="pill">Waiting</span></div><div class="charge-number"><span id="soc">—</span><span class="percent">%</span></div><div class="battery-track"><div id="soc-fill"></div></div><div class="charge-footer"><span id="capacity">Capacity unavailable</span><span id="scope">Pack scope unknown</span></div></div>

@@ -27,3 +27,6 @@
 
 .chart .chart-axis{fill:#e3eaf4;color:#e3eaf4;font-weight:500}
 .chart .chart-legend,.chart p{color:#e3eaf4}
+
+#tesla-section{margin-bottom:32px}#tesla-section .section-title{margin-top:10px}
+#tesla-status,#tesla-automation{overflow-wrap:anywhere;line-height:1.8}

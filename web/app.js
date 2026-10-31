@@ -38,6 +38,7 @@ async function refresh(){
  if(busy){pending=true;return}busy=true;
  try{
  await refreshInverter();
+ await refreshTesla();
  statuses=await get('/api/status');
  const bank=await get('/api/bank/summary');
  $('bank-state').textContent=(bank.source==='mock'?'SIMULATED · ':'')+(bank.complete?'ALL PACKS LIVE':'PARTIAL COVERAGE');
@@ -94,6 +95,31 @@ $('battery').onchange=refresh;$('range').onchange=refresh;
 get('/api/system/health').then(h=>{gap=h.max_gap_seconds}).catch(()=>{});refresh();setInterval(refresh,10000);const stream=new EventSource('/api/events');stream.onmessage=refresh;stream.onerror=()=>{$('status').textContent='Live connection interrupted; reconnecting…'};
 
 function clock(){ $('clock').textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) }clock();setInterval(clock,10000);
+
+async function refreshTesla(){
+ try{
+ const t=await get('/api/tesla');
+ $('tesla-section').hidden=!t.enabled;
+ if(!t.enabled)return;
+ const v=t.vehicle||{},a=t.automation||{},yes=b=>b==null?'Unavailable':b?'Yes':'No';
+ $('tesla-name').textContent=v.name||'Tesla';
+ $('tesla-state').textContent=t.error?'NO DATA':(t.stale?'STALE · ':'')+(t.state||'unknown').toUpperCase()+(v.charging_state&&t.state==='online'?' · '+v.charging_state.toUpperCase():'');
+ $('tesla-state').className='pill'+(t.stale||t.error?' warning':'');
+ $('tesla-status').textContent=t.error||('Checked: '+(t.checked_at??'never')+' · Details from: '+(t.data_at??'never')+(t.state&&t.state!=='online'?' · Car is '+t.state+'; showing last known details (it is not woken for the dashboard)':''));
+ const charging=v.charging_state==='Charging';
+ cards('tesla-metrics',[
+ ['Car SOC · limit '+(v.charge_limit_soc??'—')+'%',fmt(v.battery_level,'%')],
+ ['Range',fmt(v.battery_range_mi,'mi')],
+ ['Charging power',charging?fmt(v.charger_power_kw,'kW'):(v.charging_state??'Unavailable')],
+ ['Current · actual / set / max',charging?[v.charger_actual_current_a,v.charge_current_request_a,v.charge_current_request_max_a].map(x=>x??'—').join(' / ')+' A':(v.charge_current_request_a==null?'Unavailable':'Set '+v.charge_current_request_a+' A')],
+ ['Added this session',fmt(v.charge_energy_added_kwh,'kWh')],
+ ['Time to full',charging&&v.minutes_to_full_charge!=null?Math.floor(v.minutes_to_full_charge/60)+'h '+v.minutes_to_full_charge%60+'m':'—'],
+ ['Inside / outside',fmt(v.inside_temp_c,'°C')+' / '+fmt(v.outside_temp_c,'°C')],
+ ['Locked · Sentry',yes(v.locked)+' · '+yes(v.sentry_mode)]
+ ]);
+ $('tesla-automation').textContent=a.stop_at==null?'':'Automation: stop car charging at bank ≤ '+a.stop_at+'%'+(a.resume_at==null?'':', resume at ≥ '+a.resume_at+'%')+(a.dry_run?' · DRY RUN (logging only)':'')+(a.stopped_by_us?' · Currently paused by automation':'')+(t.last_action?' · Last action '+t.last_action.at+': '+t.last_action.text:'')+' · Refreshes every '+Math.round((a.status_every_seconds||0)/60)+' min.';
+ }catch(error){$('tesla-state').textContent='CONNECTION UNAVAILABLE';$('tesla-state').className='pill warning';$('tesla-status').textContent=error.message}
+}
 
 async function refreshInverter(){
  try{

@@ -42,4 +42,11 @@ def load_config(path):
             raise ValueError('Inverter polling must be at least 10 seconds; stale threshold must be positive')
         if not isinstance(inverter['logger_serial'], int) or not 0 < inverter['logger_serial'] < 2**32:
             raise ValueError('Logger serial must be a 32-bit positive integer')
+    tesla = config.get('tesla')
+    if tesla and tesla.get('enabled', False):
+        if not tesla.get('status_file'):
+            raise ValueError('Tesla requires status_file')
+        status_file = Path(tesla['status_file'])
+        tesla['status_file'] = str(status_file if status_file.is_absolute() else path.parent / status_file)
+        tesla.setdefault('max_age_seconds', 2700)
     return config

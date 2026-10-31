@@ -59,6 +59,20 @@ def create_app(config):
                 'stale':age is None or age > c['max_gap_seconds'],
                 'max_gap_seconds':c['max_gap_seconds'], 'reading':reading}
 
+    @app.get('/api/tesla')
+    async def tesla():
+        """Car snapshot written by tesla_ctrl's watcher; Homy never contacts Tesla."""
+        c = config.get('tesla') or {}
+        if not c.get('enabled'):
+            return {'enabled': False}
+        try:
+            snapshot = json.loads(Path(c['status_file']).read_text())
+        except (OSError, ValueError) as e:
+            return {'enabled': True, 'error': f'Status file unavailable: {e.__class__.__name__}', 'stale': True}
+        checked = snapshot.get('checked_at')
+        age = (datetime.now(timezone.utc) - datetime.fromisoformat(checked.replace('Z', '+00:00'))).total_seconds() if checked else None
+        return {'enabled': True, **snapshot, 'stale': age is None or age > c['max_age_seconds']}
+
     @app.get('/api/inverter')
     async def inverter():
         return inverter_snapshot()
