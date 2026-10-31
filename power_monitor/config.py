@@ -48,5 +48,5 @@ def load_config(path):
             raise ValueError('Tesla requires status_file')
         status_file = Path(tesla['status_file'])
         tesla['status_file'] = str(status_file if status_file.is_absolute() else path.parent / status_file)
-        tesla.setdefault('max_age_seconds', 2700)
+        tesla.setdefault('max_age_seconds', 5400)
     return config

@@ -56,4 +56,4 @@ tesla:
   enabled: false
   # Written by ~/apps/tesla_ctrl (teslactl.py run); refresh rate is CAR_STATUS_SECONDS there.
   status_file: ../tesla_ctrl/data/car_status.json
-  max_age_seconds: 2700
+  max_age_seconds: 5400
