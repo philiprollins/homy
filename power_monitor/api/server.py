@@ -6,10 +6,22 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from ..storage.database import Database
 from ..services.monitoring import Monitoring
 from ..services.bank import summarize
 from ..services.inverter import InverterMonitoring
+
+
+class SPAStaticFiles(StaticFiles):
+    """Serves index.html for unknown extensionless paths so client-side routes deep-link."""
+    async def get_response(self, path, scope):
+        try:
+            return await super().get_response(path, scope)
+        except StarletteHTTPException as e:
+            if e.status_code != 404 or path.startswith('api/') or '.' in path.rsplit('/', 1)[-1]:
+                raise
+            return await super().get_response('index.html', scope)
 
 
 def create_app(config):
@@ -148,5 +160,5 @@ def create_app(config):
                 await asyncio.sleep(2)
         return StreamingResponse(stream(), media_type='text/event-stream')
 
-    app.mount('/', StaticFiles(directory=Path(__file__).resolve().parents[2] / 'web', html=True), name='web')
+    app.mount('/', SPAStaticFiles(directory=Path(__file__).resolve().parents[2] / 'web', html=True), name='web')
     return app

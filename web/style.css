@@ -30,3 +30,22 @@
 
 #tesla-section{margin-bottom:32px}#tesla-section .section-title{margin-top:10px}
 #tesla-status,#tesla-automation{overflow-wrap:anywhere;line-height:1.8}
+.breadcrumb b{font-weight:inherit}.pack-tile{display:block}.summaries{margin-top:32px}a.card{transition:border-color .15s}a.card:hover{border-color:#596a83}.nav[hidden]{display:none}
+@media(max-width:760px){.sidebar{display:flex;position:sticky;top:0;z-index:5;width:auto;flex-direction:row;align-items:center;gap:6px;padding:8px 12px;border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}.sidebar .brand{font-size:0;gap:0}.sidebar .workspace,.sidebar-bottom{display:none}.sidebar nav{display:flex;gap:4px}.nav{margin:0;padding:9px 11px;white-space:nowrap;font-size:12px}.nav>span:first-child{font-size:15px}}
+.power-flow{display:grid;grid-template-columns:1fr 60px 1.4fr 60px 1fr;align-items:stretch;border:1px solid #343b48;border-radius:12px;background:linear-gradient(115deg,#222834,#181e28);padding:24px}
+.flow-node{padding:20px;border:1px solid var(--line);border-radius:10px;background:#181d26;display:flex;flex-direction:column;gap:10px}.flow-node.linked{cursor:pointer}.flow-node.linked:hover{border-color:#596a83}
+.flow-node strong{font-size:38px;font-weight:450;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}.flow-node small{font-size:10px;color:#9ba8ba}
+.flow-node[data-state=active]{border-color:#4f6584}.flow-node[data-state=charging]{border-color:#8ba9d4}.flow-node[data-state=discharging]{border-color:#bfae99}
+.flow-center{display:flex;flex-direction:column;gap:14px}.flow-center .flow-node strong{font-size:48px}
+.flow-arrow{align-self:center;height:2px;margin:0 8px;background:#2f3846;position:relative}.flow-arrow:after{content:"";position:absolute;top:-4px;width:8px;height:8px;border-top:2px solid #2f3846;border-right:2px solid #2f3846}
+#a-solar:after,.flow-arrow.to-home:after{right:0;transform:rotate(45deg)}.flow-arrow.to-bank:after{left:0;transform:rotate(-135deg)}
+#a-solar[data-on=true],.flow-arrow.to-home,.flow-arrow.to-bank{background:#8ba9d4}#a-solar[data-on=true]:after,.flow-arrow.to-home:after,.flow-arrow.to-bank:after{border-color:#8ba9d4}
+.split-bar{display:flex;height:10px;border-radius:3px;overflow:hidden;background:#11151c}.split-bar i{transition:width .7s}#bar-car{background:#bfae99}#bar-rest{background:#829bbc}
+.split-legend{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#9ba8ba;margin-top:8px}.split-legend b{font-weight:inherit}.split-legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:6px}.split-legend i.car{background:#bfae99}.split-legend i.rest{background:#829bbc}
+#balance{margin:10px 0 0}
+.car-panel{margin-top:24px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px 28px}.car-head{display:flex;justify-content:space-between;align-items:center}.pill.active{border-color:#8ba9d4;color:#8ba9d4}
+.car-body{display:grid;grid-template-columns:1fr 1.6fr;gap:28px;align-items:center;margin-top:10px}.charge-number.small{font-size:64px;letter-spacing:-4px;margin:0 0 6px}
+#car-fill{height:100%;width:0;background:#bfae99;transition:width .7s}.limit-mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:#e3eaf4;z-index:1}.car-panel .battery-track{overflow:visible}
+.car-metrics{grid-template-columns:repeat(2,1fr)}.car-metrics .card strong{font-size:21px;margin-top:10px}
+#packs{margin-top:16px}
+@media(max-width:1100px){.power-flow{grid-template-columns:1fr;gap:12px}.flow-arrow{display:none}.car-body{grid-template-columns:1fr}}
